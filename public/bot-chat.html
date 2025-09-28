@@ -1,48 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Aminos Bot Chat</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 2rem;
-    }
-    .info {
-      margin-bottom: 1rem;
-      padding: 1rem;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-    }
-  </style>
-</head>
-<body>
-  <div id="info" class="info">Loading bot...</div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Musalhu Bot Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-blue-600 text-white shadow px-6 py-4 flex justify-between items-center">
+      <div>
+        <h1 id="botName" class="text-xl font-semibold">Loading bot...</h1>
+        <p id="botGreeting" class="text-sm opacity-80"></p>
+      </div>
+      <div class="text-white font-bold">Musalhu Portal</div>
+    </header>
 
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const botId = urlParams.get("bot_id");
-    const botName = urlParams.get("name");
-    const botGreeting = urlParams.get("greeting");
+    <!-- Info Card -->
+    <main class="flex-1 flex items-center justify-center">
+      <div
+        id="info"
+        class="bg-white shadow rounded-xl p-6 text-center max-w-lg w-full"
+      >
+        <p class="text-gray-600">Initializing chat...</p>
+      </div>
+    </main>
 
-    if (botId) {
-      document.getElementById("info").innerHTML = `
-        <h2 style="margin:0; font-size:1.25rem; font-weight:bold;">
-          ${botName || "Bot"}
-        </h2>
-        <p style="margin:0.5rem 0 0; color:#4b5563;">
-          ${botGreeting || ""}
-        </p>
-      `;
+    <!-- Script -->
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const botId = urlParams.get("bot_id");
+      const botName = urlParams.get("name");
+      const botGreeting = urlParams.get("greeting");
 
-      const script = document.createElement("script");
-      script.src = "https://app.aminos.ai/js/chat_plugin.js";
-      script.setAttribute("data-bot-id", botId);
-      document.body.appendChild(script);
-    } else {
-      document.getElementById("info").innerHTML = "<p>No bot specified.</p>";
-    }
-  </script>
-</body>
+      if (botId) {
+        document.getElementById("botName").innerText =
+          botName || "Musalhu Bot";
+        document.getElementById("botGreeting").innerText =
+          botGreeting || "";
+
+        document.getElementById("info").innerHTML = `
+          <h2 class="text-lg font-semibold mb-2">🤖 ${botName || "Bot"}</h2>
+          <p class="text-gray-600 mb-4">${
+            botGreeting || "Chat assistant is ready to help you."
+          }</p>
+          <p class="text-gray-400 text-sm">The chat bubble will appear in the bottom-right corner.</p>
+        `;
+
+        const script = document.createElement("script");
+        script.src = "https://app.aminos.ai/js/chat_plugin.js";
+        script.setAttribute("data-bot-id", botId);
+        document.body.appendChild(script);
+      } else {
+        document.getElementById("info").innerHTML =
+          "<p class='text-red-500'>❌ No bot specified.</p>";
+      }
+    </script>
+  </body>
 </html>
