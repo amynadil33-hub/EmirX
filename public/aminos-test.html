@@ -7,7 +7,21 @@
 </head>
 <body>
   <h1>Aminos Embed Test</h1>
-  <!-- 🔥 Static Aminos embed -->
+
+  <!-- Debug logs to console -->
+  <script>
+    console.log("📡 Aminos test page loaded");
+
+    window.addEventListener("error", (e) => {
+      console.error("❌ Script error detected:", e.message, "at", e.filename, ":", e.lineno);
+    });
+
+    window.addEventListener("unhandledrejection", (e) => {
+      console.error("❌ Unhandled promise rejection:", e.reason);
+    });
+  </script>
+
+  <!-- Aminos embed -->
   <script src="https://app.aminos.ai/js/chat_plugin.js" data-bot-id="54775"></script>
 </body>
 </html>
