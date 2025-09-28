@@ -111,14 +111,14 @@ function App() {
             }
           />
           <Route 
-            path="/bots/:id"   {/* ✅ fixed plural route */}
+            path="/bots/:id"
             element={
-              <ProtectedRoute>
-                <AppProvider>
-                  <BotDetails />
-                </AppProvider>
-              </ProtectedRoute>
-            }
+            <ProtectedRoute>
+             <AppProvider>
+              <BotDetails />
+             </AppProvider>
+            </ProtectedRoute>
+           }
           />
 
           {/* Catch-all */}
