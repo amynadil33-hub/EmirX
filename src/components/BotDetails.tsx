@@ -10,7 +10,7 @@ export default function BotDetails() {
   >("chat");
   const [saving, setSaving] = useState(false);
 
-  // Load bot info
+  // Load bot info from Supabase
   useEffect(() => {
     async function loadBot() {
       const { data: userData } = await supabase.auth.getUser();
@@ -30,30 +30,6 @@ export default function BotDetails() {
 
     loadBot();
   }, [id]);
-
-  // Inject Aminos script fresh when Chat tab is active
-  useEffect(() => {
-    if (activeTab === "chat" && bot?.bot_id) {
-      console.log("⚡ Loading Aminos bot:", bot.bot_id);
-
-      // Remove old bubble & script if present
-      document.querySelector(".aminos-chat-bubble")?.remove();
-      document
-        .querySelector("script[src*='chat_plugin.js']")
-        ?.remove();
-
-      const script = document.createElement("script");
-      script.src = "https://app.aminos.ai/js/chat_plugin.js";
-      script.async = true;
-      script.setAttribute("data-bot-id", bot.bot_id);
-
-      script.onload = () => {
-        console.log("✅ Aminos loaded for bot:", bot.bot_id);
-      };
-
-      document.body.appendChild(script);
-    }
-  }, [activeTab, bot?.bot_id]);
 
   async function saveChanges() {
     if (!bot) return;
@@ -96,8 +72,16 @@ export default function BotDetails() {
       {activeTab === "chat" && (
         <div>
           <p className="text-gray-600 mb-4">{bot.greeting}</p>
-          <p className="text-sm text-gray-400">
-            The Aminos chat bubble should appear in the bottom-right corner.
+          <a
+            href={`/bot-chat.html?bot_id=${bot.bot_id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Open Chat
+          </a>
+          <p className="text-sm text-gray-400 mt-2">
+            Opens a dedicated chat page for this bot.
           </p>
         </div>
       )}
