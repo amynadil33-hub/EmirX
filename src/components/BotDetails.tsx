@@ -31,37 +31,6 @@ export default function BotDetails() {
     loadBot();
   }, [id]);
 
-  // Inject Aminos when Chat tab opens
-  useEffect(() => {
-    if (activeTab === "chat" && bot?.bot_id) {
-      console.log("⚡ Injecting Aminos script for bot:", bot.bot_id);
-
-      // Prevent duplicates
-      if (document.querySelector(`script[data-bot-id="${bot.bot_id}"]`)) {
-        console.log("⏸ Script already present, skipping");
-        return;
-      }
-
-      const script = document.createElement("script");
-      script.src = "https://app.aminos.ai/js/chat_plugin.js";
-      script.async = true;
-      script.setAttribute("data-bot-id", bot.bot_id);
-      script.id = `aminos-bot-${bot.bot_id}`;
-
-      script.onload = () => {
-        console.log("✅ Aminos script loaded for bot:", bot.bot_id);
-      };
-
-      document.body.appendChild(script);
-
-      // Only clean up if component fully unmounts (not on tab switch)
-      return () => {
-        console.log("🧹 Removing Aminos script (component unmounted)");
-        script.remove();
-      };
-    }
-  }, [activeTab, bot?.bot_id]);
-
   async function saveChanges() {
     if (!bot) return;
     setSaving(true);
@@ -119,6 +88,13 @@ export default function BotDetails() {
           <p className="text-sm text-gray-400">
             The Aminos chat bubble should appear in the bottom-right corner.
           </p>
+
+          {/* ✅ Inject the exact working Aminos embed */}
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `<script src="https://app.aminos.ai/js/chat_plugin.js" data-bot-id="${bot.bot_id}"></script>`,
+            }}
+          />
         </div>
       )}
 
