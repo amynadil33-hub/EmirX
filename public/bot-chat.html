@@ -21,13 +21,11 @@
   <div id="info" class="info">Loading bot...</div>
 
   <script>
-    // --- 1. Read query params ---
     const urlParams = new URLSearchParams(window.location.search);
     const botId = urlParams.get("bot_id");
     const botName = urlParams.get("name");
     const botGreeting = urlParams.get("greeting");
 
-    // --- 2. Display bot info from query params ---
     if (botId) {
       document.getElementById("info").innerHTML = `
         <h2 style="margin:0; font-size:1.25rem; font-weight:bold;">
@@ -38,7 +36,6 @@
         </p>
       `;
 
-      // --- 3. Load Aminos script ---
       const script = document.createElement("script");
       script.src = "https://app.aminos.ai/js/chat_plugin.js";
       script.setAttribute("data-bot-id", botId);
