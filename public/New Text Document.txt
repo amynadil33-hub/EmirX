@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Aminos Universal Test</title>
+</head>
+<body>
+  <h1>Testing Aminos Universal Embed</h1>
+
+  <!-- ✅ Universal Aminos Chat -->
+  <script src="https://app.aminos.ai/js/chat_plugin.js" data-bot-id="54775"></script>
+</body>
+</html>

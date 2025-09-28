@@ -1,0 +1,10 @@
+{
+  "imports": {
+    "pdf-parse": "npm:pdf-parse@1.1.1",
+    "mammoth": "npm:mammoth@1.8.0",
+    "xlsx": "npm:xlsx@0.18.5"
+  },
+  "compilerOptions": {
+    "lib": ["dom", "deno.ns"]
+  }
+}
