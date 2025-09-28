@@ -111,7 +111,7 @@ function App() {
             }
           />
           <Route 
-            path="/bot/:id" 
+            path="/bots/:id"   {/* ✅ fixed plural route */}
             element={
               <ProtectedRoute>
                 <AppProvider>
