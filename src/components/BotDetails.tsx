@@ -44,8 +44,9 @@ export default function BotDetails() {
 
       const script = document.createElement("script");
       script.src = "https://app.aminos.ai/js/chat_plugin.js";
-      script.setAttribute("data-bot-id", bot.bot_id);
       script.async = true;
+      script.setAttribute("data-bot-id", bot.bot_id);
+      script.id = `aminos-bot-${bot.bot_id}`;
 
       script.onload = () => {
         console.log("✅ Aminos script loaded for bot:", bot.bot_id);
@@ -53,9 +54,9 @@ export default function BotDetails() {
 
       document.body.appendChild(script);
 
-      // ⚠️ Do NOT remove script on tab switch (only if component unmounts)
+      // Only clean up if component fully unmounts (not on tab switch)
       return () => {
-        console.log("🧹 Removing Aminos script on full unmount");
+        console.log("🧹 Removing Aminos script (component unmounted)");
         script.remove();
       };
     }
@@ -116,7 +117,7 @@ export default function BotDetails() {
         <div>
           <p className="text-gray-600 mb-4">{bot.greeting}</p>
           <p className="text-sm text-gray-400">
-            The chat bubble should appear in bottom-right corner.
+            The Aminos chat bubble should appear in the bottom-right corner.
           </p>
         </div>
       )}
