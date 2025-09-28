@@ -115,4 +115,40 @@ export default function BotDetails() {
 
       {activeTab === "integrations" && (
         <div className="space-y-6">
-          {/* Website Embed*
+          {/* Website Embed */}
+          <div>
+            <p className="mb-2 font-medium">Embed this bot on your website:</p>
+            <pre className="bg-gray-100 p-2 rounded text-sm">{`<script src="https://app.aminos.ai/js/chat_plugin.js" data-bot-id="${bot.bot_id}"></script>`}</pre>
+          </div>
+
+          {/* Social Media & Marketing */}
+          <div>
+            <p className="mb-2 font-medium">
+              Connect to WhatsApp, Facebook & Instagram:
+            </p>
+            <p className="text-gray-600 text-sm mb-2">
+              Use Zapier to connect this Aminos bot to social media and messaging apps.
+              With Zapier you can:
+            </p>
+            <ul className="list-disc ml-6 text-sm text-gray-700 mb-3">
+              <li>Reply to WhatsApp messages automatically</li>
+              <li>Chat with customers on Facebook Messenger</li>
+              <li>Engage with Instagram DMs</li>
+            </ul>
+            <a
+              href="https://zapier.com/apps/aminos/integrations"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green-500 text-white px-4 py-2 rounded"
+            >
+              Connect via Zapier
+            </a>
+            <p className="text-gray-500 text-xs mt-2">
+              ⚠️ You’ll need your Aminos API key from your Aminos profile to activate Zapier integrations.
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
