@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Aminos Bot Chat</title>
+</head>
+<body>
+  <div id="bot-container"></div>
+
+  <script>
+    // 1. Read bot_id from the query string
+    const urlParams = new URLSearchParams(window.location.search);
+    const botId = urlParams.get("bot_id");
+
+    // 2. Load Aminos script with that botId
+    if (botId) {
+      const script = document.createElement("script");
+      script.src = "https://app.aminos.ai/js/chat_plugin.js";
+      script.setAttribute("data-bot-id", botId);
+      document.body.appendChild(script);
+    } else {
+      document.body.innerHTML = "<p>No bot specified.</p>";
+    }
+  </script>
+</body>
+</html>
