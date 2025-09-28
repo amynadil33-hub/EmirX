@@ -1,27 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aminos Test</title>
-</head>
-<body>
-  <h1>Aminos Embed Test</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aminos Test</title>
+  </head>
+  <body>
+    <h1>Aminos Embed Test</h1>
 
-  <!-- Debug logs to console -->
-  <script>
-    console.log("📡 Aminos test page loaded");
-
-    window.addEventListener("error", (e) => {
-      console.error("❌ Script error detected:", e.message, "at", e.filename, ":", e.lineno);
-    });
-
-    window.addEventListener("unhandledrejection", (e) => {
-      console.error("❌ Unhandled promise rejection:", e.reason);
-    });
-  </script>
-
-  <!-- Aminos embed -->
-  <script src="https://app.aminos.ai/js/chat_plugin.js" data-bot-id="54775"></script>
-</body>
+    <!-- Aminos embed -->
+    <script src="https://app.aminos.ai/js/chat_plugin.js" data-bot-id="54775"></script>
+  </body>
 </html>
