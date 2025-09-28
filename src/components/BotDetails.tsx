@@ -127,24 +127,17 @@ export default function BotDetails() {
               Connect to WhatsApp, Facebook & Instagram:
             </p>
             <p className="text-gray-600 text-sm mb-2">
-              Use Zapier to connect this Aminos bot to social media and messaging apps.
-              With Zapier you can:
+              This bot can also chat with your customers on social media and
+              messaging apps. Supported channels include:
             </p>
             <ul className="list-disc ml-6 text-sm text-gray-700 mb-3">
-              <li>Reply to WhatsApp messages automatically</li>
-              <li>Chat with customers on Facebook Messenger</li>
-              <li>Engage with Instagram DMs</li>
+              <li>WhatsApp Business</li>
+              <li>Facebook Messenger</li>
+              <li>Instagram DMs</li>
             </ul>
-            <a
-              href="https://zapier.com/apps/aminos/integrations"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-green-500 text-white px-4 py-2 rounded"
-            >
-              Connect via Zapier
-            </a>
-            <p className="text-gray-500 text-xs mt-2">
-              ⚠️ You’ll need your Aminos API key from your Aminos profile to activate Zapier integrations.
+            <p className="text-gray-600 text-sm">
+              Please contact our support team to activate social media
+              integrations for your bot.
             </p>
           </div>
         </div>
