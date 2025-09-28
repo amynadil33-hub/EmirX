@@ -3,14 +3,14 @@ import { useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 
 export default function BotDetails() {
-  const { id } = useParams(); // bot_id from URL
+  const { id } = useParams(); // bot_id
   const [bot, setBot] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<
     "chat" | "customize" | "integrations"
   >("chat");
   const [saving, setSaving] = useState(false);
 
-  // 🔹 Load bot from Supabase
+  // Load bot from Supabase
   useEffect(() => {
     async function loadBot() {
       const { data: userData } = await supabase.auth.getUser();
@@ -24,27 +24,24 @@ export default function BotDetails() {
         .eq("client_id", uid)
         .single();
 
-      if (error) {
-        console.error("❌ Error loading bot:", error.message);
-      } else {
-        setBot(data);
-      }
+      if (!error) setBot(data);
+      else console.error("❌ Error loading bot:", error.message);
     }
 
     loadBot();
   }, [id]);
 
-  // 🔹 Inject Aminos script only when Chat tab is active
+  // Inject Aminos when Chat tab opens
   useEffect(() => {
     if (activeTab === "chat" && bot?.bot_id) {
       console.log("⚡ Injecting Aminos script for bot:", bot.bot_id);
 
-      // Remove any old script
-      document
-        .querySelectorAll('script[src="https://app.aminos.ai/js/chat_plugin.js"]')
-        .forEach((el) => el.remove());
+      // Prevent duplicates
+      if (document.querySelector(`script[data-bot-id="${bot.bot_id}"]`)) {
+        console.log("⏸ Script already present, skipping");
+        return;
+      }
 
-      // Create new script
       const script = document.createElement("script");
       script.src = "https://app.aminos.ai/js/chat_plugin.js";
       script.setAttribute("data-bot-id", bot.bot_id);
@@ -52,27 +49,18 @@ export default function BotDetails() {
 
       script.onload = () => {
         console.log("✅ Aminos script loaded for bot:", bot.bot_id);
-        // 🔹 Force Aminos to re-init if needed
-        if ((window as any).Aminos) {
-          console.log("⚡ Forcing Aminos init manually");
-          try {
-            (window as any).Aminos.init();
-          } catch (err) {
-            console.warn("⚠️ Aminos init failed:", err);
-          }
-        }
       };
 
       document.body.appendChild(script);
 
+      // ⚠️ Do NOT remove script on tab switch (only if component unmounts)
       return () => {
-        console.log("🧹 Cleaning up Aminos script");
+        console.log("🧹 Removing Aminos script on full unmount");
         script.remove();
       };
     }
   }, [activeTab, bot?.bot_id]);
 
-  // 🔹 Save changes to Supabase
   async function saveChanges() {
     if (!bot) return;
     setSaving(true);
@@ -127,8 +115,9 @@ export default function BotDetails() {
       {activeTab === "chat" && (
         <div>
           <p className="text-gray-600 mb-4">{bot.greeting}</p>
-          {/* Placeholder for Aminos */}
-          <div id="aminos-chat-window" />
+          <p className="text-sm text-gray-400">
+            The chat bubble should appear in bottom-right corner.
+          </p>
         </div>
       )}
 
