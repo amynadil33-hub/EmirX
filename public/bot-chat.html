@@ -18,59 +18,31 @@
   </style>
 </head>
 <body>
-  <div id="info" class="info">Loading bot info...</div>
+  <div id="info" class="info">Loading bot...</div>
 
   <script>
-    // --- 1. Supabase project config (replace with your real values) ---
-    const SUPABASE_URL = "https://jaaetwlmiyccaaqmjymf.supabase.co";
-    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
-
-    // --- 2. Get bot_id from query string ---
+    // --- 1. Read query params ---
     const urlParams = new URLSearchParams(window.location.search);
     const botId = urlParams.get("bot_id");
+    const botName = urlParams.get("name");
+    const botGreeting = urlParams.get("greeting");
 
-    async function loadBot(botId) {
-      try {
-        const res = await fetch(
-          `${SUPABASE_URL}/rest/v1/client_bots?bot_id=eq.${botId}&select=name,greeting`,
-          {
-            headers: {
-              apikey: SUPABASE_ANON_KEY,
-              Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-            },
-          }
-        );
+    // --- 2. Display bot info from query params ---
+    if (botId) {
+      document.getElementById("info").innerHTML = `
+        <h2 style="margin:0; font-size:1.25rem; font-weight:bold;">
+          ${botName || "Bot"}
+        </h2>
+        <p style="margin:0.5rem 0 0; color:#4b5563;">
+          ${botGreeting || ""}
+        </p>
+      `;
 
-        if (!res.ok) throw new Error("Failed to fetch bot info");
-
-        const data = await res.json();
-        if (data.length > 0) {
-          const bot = data[0];
-          document.getElementById("info").innerHTML = `
-            <h2 style="margin:0; font-size:1.25rem; font-weight:bold;">${bot.name}</h2>
-            <p style="margin:0.5rem 0 0; color:#4b5563;">${bot.greeting}</p>
-          `;
-        } else {
-          document.getElementById("info").innerHTML = "<p>Bot not found.</p>";
-        }
-      } catch (err) {
-        console.error("❌ Error loading bot:", err);
-        document.getElementById("info").innerHTML = "<p>Error loading bot info.</p>";
-      }
-    }
-
-    // --- 3. Load Aminos script with bot_id ---
-    function loadAminos(botId) {
+      // --- 3. Load Aminos script ---
       const script = document.createElement("script");
       script.src = "https://app.aminos.ai/js/chat_plugin.js";
       script.setAttribute("data-bot-id", botId);
       document.body.appendChild(script);
-    }
-
-    // --- 4. Run everything ---
-    if (botId) {
-      loadBot(botId);
-      loadAminos(botId);
     } else {
       document.getElementById("info").innerHTML = "<p>No bot specified.</p>";
     }
