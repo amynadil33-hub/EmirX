@@ -3,14 +3,14 @@ import { useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 
 export default function BotDetails() {
-  const { id } = useParams(); // bot_id
+  const { id } = useParams(); // bot_id from URL
   const [bot, setBot] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<
     "chat" | "customize" | "integrations"
   >("chat");
   const [saving, setSaving] = useState(false);
 
-  // Load bot from Supabase
+  // Load bot info
   useEffect(() => {
     async function loadBot() {
       const { data: userData } = await supabase.auth.getUser();
@@ -31,29 +31,24 @@ export default function BotDetails() {
     loadBot();
   }, [id]);
 
-  // Inject Aminos when Chat tab opens
+  // Inject Aminos script fresh when Chat tab is active
   useEffect(() => {
     if (activeTab === "chat" && bot?.bot_id) {
-      console.log("⚡ Reloading Aminos script for bot:", bot.bot_id);
+      console.log("⚡ Loading Aminos bot:", bot.bot_id);
 
-      // Remove any old bubble
-      const oldBubble = document.querySelector(".aminos-chat-bubble");
-      if (oldBubble) oldBubble.remove();
+      // Remove old bubble & script if present
+      document.querySelector(".aminos-chat-bubble")?.remove();
+      document
+        .querySelector("script[src*='chat_plugin.js']")
+        ?.remove();
 
-      // Remove any old script
-      const oldScript = document.querySelector(
-        "script[src*='chat_plugin.js']"
-      );
-      if (oldScript) oldScript.remove();
-
-      // Inject fresh script
       const script = document.createElement("script");
       script.src = "https://app.aminos.ai/js/chat_plugin.js";
       script.async = true;
       script.setAttribute("data-bot-id", bot.bot_id);
 
       script.onload = () => {
-        console.log("✅ Aminos script loaded for bot:", bot.bot_id);
+        console.log("✅ Aminos loaded for bot:", bot.bot_id);
       };
 
       document.body.appendChild(script);
@@ -84,30 +79,17 @@ export default function BotDetails() {
 
       {/* Tabs */}
       <div className="flex space-x-4 border-b mb-4">
-        <button
-          className={`pb-2 ${
-            activeTab === "chat" ? "border-b-2 border-blue-500" : ""
-          }`}
-          onClick={() => setActiveTab("chat")}
-        >
-          Chat
-        </button>
-        <button
-          className={`pb-2 ${
-            activeTab === "customize" ? "border-b-2 border-blue-500" : ""
-          }`}
-          onClick={() => setActiveTab("customize")}
-        >
-          Customize
-        </button>
-        <button
-          className={`pb-2 ${
-            activeTab === "integrations" ? "border-b-2 border-blue-500" : ""
-          }`}
-          onClick={() => setActiveTab("integrations")}
-        >
-          Integrations
-        </button>
+        {["chat", "customize", "integrations"].map((tab) => (
+          <button
+            key={tab}
+            className={`pb-2 ${
+              activeTab === tab ? "border-b-2 border-blue-500" : ""
+            }`}
+            onClick={() => setActiveTab(tab as any)}
+          >
+            {tab[0].toUpperCase() + tab.slice(1)}
+          </button>
+        ))}
       </div>
 
       {/* Tab Content */}
