@@ -8,11 +8,11 @@
   <div id="bot-container"></div>
 
   <script>
-    // 1. Read bot_id from the query string
+    // 1. Read bot_id from query string
     const urlParams = new URLSearchParams(window.location.search);
     const botId = urlParams.get("bot_id");
 
-    // 2. Load Aminos script with that botId
+    // 2. Load Aminos script with that bot_id
     if (botId) {
       const script = document.createElement("script");
       script.src = "https://app.aminos.ai/js/chat_plugin.js";
