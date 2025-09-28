@@ -10,7 +10,7 @@ export default function BotDetails() {
   >("chat");
   const [saving, setSaving] = useState(false);
 
-  // Load bot info from Supabase
+  // Load bot info
   useEffect(() => {
     async function loadBot() {
       const { data: userData } = await supabase.auth.getUser();
@@ -27,7 +27,6 @@ export default function BotDetails() {
       if (!error) setBot(data);
       else console.error("❌ Error loading bot:", error.message);
     }
-
     loadBot();
   }, [id]);
 
@@ -50,27 +49,46 @@ export default function BotDetails() {
   if (!bot) return <p>Loading bot...</p>;
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">{bot.name}</h2>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-6">{bot.name}</h1>
 
       {/* Tabs */}
-      <div className="flex space-x-4 border-b mb-4">
-        {["chat", "customize", "integrations"].map((tab) => (
-          <button
-            key={tab}
-            className={`pb-2 ${
-              activeTab === tab ? "border-b-2 border-blue-500" : ""
-            }`}
-            onClick={() => setActiveTab(tab as any)}
-          >
-            {tab[0].toUpperCase() + tab.slice(1)}
-          </button>
-        ))}
+      <div className="flex space-x-6 border-b mb-6">
+        <button
+          className={`flex items-center gap-2 pb-3 ${
+            activeTab === "chat"
+              ? "border-b-2 border-blue-500 text-blue-600 font-medium"
+              : "text-gray-500 hover:text-gray-700"
+          }`}
+          onClick={() => setActiveTab("chat")}
+        >
+          💬 Chat
+        </button>
+        <button
+          className={`flex items-center gap-2 pb-3 ${
+            activeTab === "customize"
+              ? "border-b-2 border-blue-500 text-blue-600 font-medium"
+              : "text-gray-500 hover:text-gray-700"
+          }`}
+          onClick={() => setActiveTab("customize")}
+        >
+          🎨 Customize
+        </button>
+        <button
+          className={`flex items-center gap-2 pb-3 ${
+            activeTab === "integrations"
+              ? "border-b-2 border-blue-500 text-blue-600 font-medium"
+              : "text-gray-500 hover:text-gray-700"
+          }`}
+          onClick={() => setActiveTab("integrations")}
+        >
+          🔗 Integrations
+        </button>
       </div>
 
-      {/* Tab Content */}
+      {/* Chat Tab */}
       {activeTab === "chat" && (
-        <div>
+        <div className="bg-white rounded-xl shadow p-6">
           <p className="text-gray-600 mb-4">{bot.greeting}</p>
           <a
             href={`/bot-chat.html?bot_id=${bot.bot_id}&name=${encodeURIComponent(
@@ -78,7 +96,7 @@ export default function BotDetails() {
             )}&greeting=${encodeURIComponent(bot.greeting)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
           >
             Open Chat
           </a>
@@ -88,8 +106,9 @@ export default function BotDetails() {
         </div>
       )}
 
+      {/* Customize Tab */}
       {activeTab === "customize" && (
-        <div className="space-y-4">
+        <div className="bg-white rounded-xl shadow p-6 space-y-4">
           <input
             type="text"
             value={bot.name || ""}
@@ -106,15 +125,16 @@ export default function BotDetails() {
           <button
             onClick={saveChanges}
             disabled={saving}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
           >
             {saving ? "Saving..." : "Save Changes"}
           </button>
         </div>
       )}
 
+      {/* Integrations Tab */}
       {activeTab === "integrations" && (
-        <div className="space-y-6">
+        <div className="bg-white rounded-xl shadow p-6 space-y-6">
           {/* Website Embed */}
           <div>
             <p className="mb-2 font-medium">Embed this bot on your website:</p>
