@@ -73,7 +73,9 @@ export default function BotDetails() {
         <div>
           <p className="text-gray-600 mb-4">{bot.greeting}</p>
           <a
-            href={`/bot-chat.html?bot_id=${bot.bot_id}`}
+            href={`/bot-chat.html?bot_id=${bot.bot_id}&name=${encodeURIComponent(
+              bot.name
+            )}&greeting=${encodeURIComponent(bot.greeting)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-blue-500 text-white px-4 py-2 rounded"
@@ -112,9 +114,20 @@ export default function BotDetails() {
       )}
 
       {activeTab === "integrations" && (
-        <div>
-          <p className="mb-2">Embed this bot on your website:</p>
-          <pre className="bg-gray-100 p-2 rounded text-sm">{`<script src="https://app.aminos.ai/js/chat_plugin.js" data-bot-id="${bot.bot_id}"></script>`}</pre>
+        <div className="space-y-4">
+          <div>
+            <p className="mb-2">Embed this bot on your website:</p>
+            <pre className="bg-gray-100 p-2 rounded text-sm">{`<script src="https://app.aminos.ai/js/chat_plugin.js" data-bot-id="${bot.bot_id}"></script>`}</pre>
+          </div>
+
+          <div>
+            <p className="mb-2">Direct chat page link for this bot:</p>
+            <pre className="bg-gray-100 p-2 rounded text-sm">
+{`${window.location.origin}/bot-chat.html?bot_id=${bot.bot_id}&name=${encodeURIComponent(
+  bot.name
+)}&greeting=${encodeURIComponent(bot.greeting)}`}
+            </pre>
+          </div>
         </div>
       )}
     </div>
